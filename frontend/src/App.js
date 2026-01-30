@@ -1,14 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
-import { Heart, Music, VolumeX, Sparkles, Star } from "lucide-react";
+import { Heart, ArrowRight, Star, Sparkles } from "lucide-react";
 import "./App.css";
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentQuestion, setCurrentQuestion] = useState(1);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
 
   const coupleImages = [
     "https://customer-assets.emergentagent.com/job_heart-to-heart-21/artifacts/fooomhhu_WhatsApp%20Image%202026-01-30%20at%2013.11.10%20%281%29.jpeg",
@@ -16,33 +14,7 @@ const App = () => {
     "https://customer-assets.emergentagent.com/job_heart-to-heart-21/artifacts/33ma5uug_WhatsApp%20Image%202026-01-30%20at%2013.11.09.jpeg"
   ];
 
-  useEffect(() => {
-    audioRef.current = new Audio("https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Tours/Enthusiast/Tours_-_01_-_Enthusiast.mp3");
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.3;
-  }, []);
-
-  const playMusic = () => {
-    if (audioRef.current && !isPlaying) {
-      audioRef.current.play().catch(e => console.log("Audio play failed:", e));
-      setIsPlaying(true);
-    }
-  };
-
-  const toggleMusic = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        audioRef.current.play().catch(e => console.log("Audio play failed:", e));
-        setIsPlaying(true);
-      }
-    }
-  };
-
   const handleButtonClick = (nextPage, nextQuestion = null) => {
-    playMusic();
     if (nextQuestion !== null) {
       setCurrentQuestion(nextQuestion);
     } else {
@@ -54,650 +26,466 @@ const App = () => {
   };
 
   const triggerConfetti = () => {
-    const duration = 4000;
-    const animationEnd = Date.now() + duration;
-    const defaults = { startVelocity: 30, spread: 360, ticks: 120, zIndex: 0 };
+    const count = 200;
+    const defaults = {
+      origin: { y: 0.7 },
+      zIndex: 1000
+    };
 
-    function randomInRange(min, max) {
-      return Math.random() * (max - min) + min;
+    function fire(particleRatio, opts) {
+      confetti({
+        ...defaults,
+        ...opts,
+        particleCount: Math.floor(count * particleRatio),
+        colors: ['#FFB6C1', '#FFD1DC', '#E6E6FA', '#FFC0CB', '#FF69B4']
+      });
     }
 
-    const interval = setInterval(function() {
-      const timeLeft = animationEnd - Date.now();
+    fire(0.25, {
+      spread: 26,
+      startVelocity: 55,
+    });
 
-      if (timeLeft <= 0) {
-        return clearInterval(interval);
-      }
+    fire(0.2, {
+      spread: 60,
+    });
 
-      const particleCount = 80 * (timeLeft / duration);
-      confetti({
-        ...defaults,
-        particleCount,
-        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-        colors: ['#FF69B4', '#FFB6C1', '#FFC0CB', '#FFD700', '#FF1493', '#FF69B4'],
-        shapes: ['circle', 'square'],
-        gravity: 0.8,
-        scalar: 1.2
-      });
-      confetti({
-        ...defaults,
-        particleCount,
-        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-        colors: ['#FF69B4', '#FFB6C1', '#FFC0CB', '#FFD700', '#FF1493', '#FF69B4'],
-        shapes: ['circle', 'square'],
-        gravity: 0.8,
-        scalar: 1.2
-      });
-    }, 200);
-  };
+    fire(0.35, {
+      spread: 100,
+      decay: 0.91,
+      scalar: 0.8
+    });
 
-  const FloatingHearts = () => {
-    return (
-      <>
-        {[...Array(12)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="floating-heart"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              fontSize: `${Math.random() * 25 + 15}px`,
-            }}
-            animate={{
-              y: [0, -40, 0],
-              x: [0, Math.random() * 30 - 15, 0],
-              rotate: [0, Math.random() * 20 - 10, 0]
-            }}
-            transition={{
-              duration: 5 + Math.random() * 3,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: Math.random() * 2,
-            }}
-          >
-            {['💕', '💖', '💗', '💓', '💞', '🥰', '😍'][i % 7]}
-          </motion.div>
-        ))}
-      </>
-    );
-  };
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 25,
+      decay: 0.92,
+      scalar: 1.2
+    });
 
-  const BubbleHearts = () => {
-    return (
-      <>
-        {[...Array(10)].map((_, i) => (
-          <motion.div
-            key={`bubble-${i}`}
-            className="bubble-heart"
-            style={{
-              left: `${Math.random() * 100}%`,
-              fontSize: `${Math.random() * 30 + 20}px`,
-            }}
-            initial={{ y: '100vh', opacity: 0 }}
-            animate={{
-              y: '-100px',
-              opacity: [0, 0.8, 0.8, 0],
-              x: [0, Math.random() * 50 - 25, Math.random() * 50 - 25, 0]
-            }}
-            transition={{
-              duration: 8 + Math.random() * 4,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: Math.random() * 5,
-            }}
-          >
-            💕
-          </motion.div>
-        ))}
-      </>
-    );
-  };
-
-  const Sparkles = () => {
-    return (
-      <>
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={`sparkle-${i}`}
-            className="sparkle"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              opacity: [0, 1, 0],
-              scale: [0, 1.5, 0],
-            }}
-            transition={{
-              duration: 2 + Math.random(),
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: Math.random() * 3,
-            }}
-          />
-        ))}
-      </>
-    );
-  };
-
-  const Stars = () => {
-    return (
-      <>
-        {[...Array(80)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="star"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              opacity: [0.2, 1, 0.2],
-              scale: [1, 1.8, 1],
-            }}
-            transition={{
-              duration: 2 + Math.random() * 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </>
-    );
-  };
-
-  const FloatingPolaroid = ({ src, delay, rotation, left, top }) => {
-    return (
-      <motion.div
-        className="polaroid-photo floating-photo"
-        style={{
-          left: left,
-          top: top,
-          rotate: rotation,
-        }}
-        animate={{
-          y: [0, -20, 0],
-          rotate: [rotation, rotation + 5, rotation],
-        }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: delay,
-        }}
-      >
-        <img src={src} alt="Memory" />
-      </motion.div>
-    );
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 45,
+    });
   };
 
   const pageVariants = {
-    initial: { opacity: 0, y: 20, scale: 0.95 },
-    animate: { opacity: 1, y: 0, scale: 1 },
-    exit: { opacity: 0, y: -20, scale: 1.05 },
-  };
-
-  const pageTransition = {
-    duration: 0.6,
-    ease: "easeOut",
+    initial: { opacity: 0, y: 30 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -30 },
   };
 
   return (
     <div className="App">
-      <button
-        className="music-toggle"
-        onClick={toggleMusic}
-        data-testid="music-toggle-button"
-        aria-label="Toggle Music"
-      >
-        {isPlaying ? <Music size={24} color="#FF9EAA" /> : <VolumeX size={24} color="#FF9EAA" />}
-      </button>
-
       <AnimatePresence mode="wait">
+        {/* PAGE 1: HERO LANDING */}
         {currentPage === 1 && (
           <motion.div
             key="page1"
-            className="valentine-container gradient-day"
+            className="page-container page-hero"
             initial="initial"
             animate="animate"
             exit="exit"
             variants={pageVariants}
-            transition={pageTransition}
+            transition={{ duration: 0.6 }}
           >
-            <FloatingHearts />
-            <Sparkles />
-            <FloatingPolaroid 
-              src={coupleImages[0]} 
-              delay={0} 
-              rotation={-8}
-              left="10%"
-              top="15%"
-            />
-            <FloatingPolaroid 
-              src={coupleImages[1]} 
-              delay={1} 
-              rotation={12}
-              left="75%"
-              top="60%"
-            />
-            
-            <div className="content-card" data-testid="welcome-page">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
+            <div className="hero-content">
+              <motion.div 
+                className="hero-image-container"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.8 }}
               >
-                <Heart size={64} color="#FF9EAA" className="mx-auto mb-6" />
+                <img src={coupleImages[0]} alt="Us" className="hero-image" />
+                <div className="image-glow"></div>
               </motion.div>
-              <h1 
-                className="text-4xl md:text-6xl font-bold mb-4 text-center"
-                style={{ fontFamily: "'Fredoka', sans-serif", color: "#4A4A4A" }}
+              
+              <motion.div
+                className="hero-text"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.8 }}
               >
-                Hey Preksha 💗
-              </h1>
-              <p 
-                className="text-lg md:text-xl text-center mb-8 leading-relaxed"
-                style={{ fontFamily: "'Nunito', sans-serif", color: "#4A4A4A" }}
-              >
-                I made a tiny corner of the internet just for you.
-              </p>
-              <button
-                className="pillow-button w-full"
-                onClick={() => handleButtonClick(2)}
-                data-testid="continue-button"
-              >
-                Continue ✨
-              </button>
+                <h1 className="hero-title">Hey Preksha</h1>
+                <p className="hero-subtitle">I made a tiny corner of the internet just for you.</p>
+                <button
+                  className="btn-primary"
+                  onClick={() => handleButtonClick(2)}
+                  data-testid="continue-button"
+                >
+                  <span>Continue</span>
+                  <ArrowRight size={20} />
+                </button>
+              </motion.div>
+            </div>
+            
+            <div className="floating-particles">
+              {[...Array(15)].map((_, i) => (
+                <div
+                  key={i}
+                  className="particle"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 5}s`,
+                    animationDuration: `${8 + Math.random() * 4}s`
+                  }}
+                />
+              ))}
             </div>
           </motion.div>
         )}
 
+        {/* PAGE 2: INTERACTIVE QUESTIONS */}
         {currentPage === 2 && (
           <motion.div
             key="page2"
-            className="valentine-container gradient-day"
+            className="page-container page-questions"
             initial="initial"
             animate="animate"
             exit="exit"
             variants={pageVariants}
-            transition={pageTransition}
+            transition={{ duration: 0.6 }}
           >
-            <FloatingHearts />
-            <BubbleHearts />
-            
-            <div className="content-card" data-testid="questions-page">
-              {currentQuestion === 1 && (
-                <motion.div
-                  key="q1"
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -50 }}
-                >
-                  <motion.div
-                    animate={{ rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    <Sparkles size={48} color="#FF9EAA" className="mx-auto mb-6" />
-                  </motion.div>
-                  <h2 
-                    className="text-2xl md:text-4xl font-semibold mb-8 text-center"
-                    style={{ fontFamily: "'Fredoka', sans-serif", color: "#4A4A4A" }}
-                  >
-                    Do you know you make my days softer?
-                  </h2>
-                  <div className="space-y-4">
-                    <button
-                      className="pillow-button w-full"
-                      onClick={() => handleButtonClick(2, 2)}
-                      data-testid="question1-yes-button"
-                    >
-                      Yes 🥺
-                    </button>
-                    <button
-                      className="pillow-button-secondary pillow-button w-full"
-                      onClick={() => handleButtonClick(2, 2)}
-                      data-testid="question1-obviously-button"
-                    >
-                      Obviously 🙄
-                    </button>
-                  </div>
-                </motion.div>
-              )}
+            <div className="questions-wrapper">
+              <div className="question-progress">
+                <div className="progress-bar">
+                  <motion.div 
+                    className="progress-fill"
+                    initial={{ width: '0%' }}
+                    animate={{ width: `${(currentQuestion / 3) * 100}%` }}
+                    transition={{ duration: 0.5 }}
+                  />
+                </div>
+                <span className="progress-text">{currentQuestion} of 3</span>
+              </div>
 
-              {currentQuestion === 2 && (
-                <motion.div
-                  key="q2"
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -50 }}
-                >
+              <AnimatePresence mode="wait">
+                {currentQuestion === 1 && (
                   <motion.div
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
+                    key="q1"
+                    className="question-card"
+                    initial={{ opacity: 0, x: 100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -100 }}
+                    transition={{ duration: 0.4 }}
                   >
-                    <Heart size={48} color="#FF9EAA" className="mx-auto mb-6" />
+                    <div className="question-icon">
+                      <Heart size={40} />
+                    </div>
+                    <h2 className="question-title">Do you know you make my days softer?</h2>
+                    <div className="question-buttons">
+                      <button
+                        className="btn-answer btn-answer-primary"
+                        onClick={() => handleButtonClick(2, 2)}
+                        data-testid="question1-yes-button"
+                      >
+                        Yes
+                      </button>
+                      <button
+                        className="btn-answer btn-answer-secondary"
+                        onClick={() => handleButtonClick(2, 2)}
+                        data-testid="question1-obviously-button"
+                      >
+                        Obviously
+                      </button>
+                    </div>
                   </motion.div>
-                  <h2 
-                    className="text-2xl md:text-4xl font-semibold mb-8 text-center"
-                    style={{ fontFamily: "'Fredoka', sans-serif", color: "#4A4A4A" }}
-                  >
-                    Do you know I feel safe with you?
-                  </h2>
-                  <div className="space-y-4">
-                    <button
-                      className="pillow-button w-full"
-                      onClick={() => handleButtonClick(2, 3)}
-                      data-testid="question2-yes-button"
-                    >
-                      Yes 🤍
-                    </button>
-                    <button
-                      className="pillow-button-secondary pillow-button w-full"
-                      onClick={() => handleButtonClick(2, 3)}
-                      data-testid="question2-always-button"
-                    >
-                      I always have
-                    </button>
-                  </div>
-                </motion.div>
-              )}
+                )}
 
-              {currentQuestion === 3 && (
-                <motion.div
-                  key="q3"
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -50 }}
-                >
+                {currentQuestion === 2 && (
                   <motion.div
-                    animate={{ y: [-5, 5, -5] }}
-                    transition={{ duration: 2, repeat: Infinity }}
+                    key="q2"
+                    className="question-card"
+                    initial={{ opacity: 0, x: 100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -100 }}
+                    transition={{ duration: 0.4 }}
                   >
-                    <Sparkles size={48} color="#FF9EAA" className="mx-auto mb-6" />
+                    <div className="question-icon">
+                      <Sparkles size={40} />
+                    </div>
+                    <h2 className="question-title">Do you know I feel safe with you?</h2>
+                    <div className="question-buttons">
+                      <button
+                        className="btn-answer btn-answer-primary"
+                        onClick={() => handleButtonClick(2, 3)}
+                        data-testid="question2-yes-button"
+                      >
+                        Yes
+                      </button>
+                      <button
+                        className="btn-answer btn-answer-secondary"
+                        onClick={() => handleButtonClick(2, 3)}
+                        data-testid="question2-always-button"
+                      >
+                        I always have
+                      </button>
+                    </div>
                   </motion.div>
-                  <h2 
-                    className="text-2xl md:text-4xl font-semibold mb-8 text-center"
-                    style={{ fontFamily: "'Fredoka', sans-serif", color: "#4A4A4A" }}
+                )}
+
+                {currentQuestion === 3 && (
+                  <motion.div
+                    key="q3"
+                    className="question-card"
+                    initial={{ opacity: 0, x: 100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -100 }}
+                    transition={{ duration: 0.4 }}
                   >
-                    Do you know you're my favourite person?
-                  </h2>
-                  <div className="space-y-4">
-                    <button
-                      className="pillow-button w-full"
-                      onClick={() => handleButtonClick(3)}
-                      data-testid="question3-yes-button"
-                    >
-                      Yes 💕
-                    </button>
-                    <button
-                      className="pillow-button-secondary pillow-button w-full"
-                      onClick={() => handleButtonClick(3)}
-                      data-testid="question3-louder-button"
-                    >
-                      Say it louder
-                    </button>
-                  </div>
-                </motion.div>
-              )}
+                    <div className="question-icon">
+                      <Star size={40} />
+                    </div>
+                    <h2 className="question-title">Do you know you're my favourite person?</h2>
+                    <div className="question-buttons">
+                      <button
+                        className="btn-answer btn-answer-primary"
+                        onClick={() => handleButtonClick(3)}
+                        data-testid="question3-yes-button"
+                      >
+                        Yes
+                      </button>
+                      <button
+                        className="btn-answer btn-answer-secondary"
+                        onClick={() => handleButtonClick(3)}
+                        data-testid="question3-louder-button"
+                      >
+                        Say it louder
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         )}
 
+        {/* PAGE 3: SPLIT SCREEN PLAYFUL */}
         {currentPage === 3 && (
           <motion.div
             key="page3"
-            className="valentine-container gradient-sunset"
+            className="page-container page-playful"
             initial="initial"
             animate="animate"
             exit="exit"
             variants={pageVariants}
-            transition={pageTransition}
+            transition={{ duration: 0.6 }}
           >
-            <FloatingHearts />
-            <Sparkles />
-            <FloatingPolaroid 
-              src={coupleImages[2]} 
-              delay={0.5} 
-              rotation={-10}
-              left="15%"
-              top="20%"
-            />
-            
-            <div className="content-card" data-testid="playful-page">
-              <motion.p
-                className="text-lg md:text-xl mb-6 text-center"
-                style={{ fontFamily: "'Caveat', cursive", fontSize: "1.5rem", color: "#4A4A4A" }}
-                animate={{ rotate: [-3, 3, -3] }}
-                transition={{ duration: 2, repeat: Infinity }}
+            <div className="split-container">
+              <motion.div 
+                className="split-left"
+                initial={{ x: -100, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.6 }}
               >
-                Okay one important question…
-              </motion.p>
-              <h2 
-                className="text-2xl md:text-4xl font-semibold mb-8 text-center"
-                style={{ fontFamily: "'Fredoka', sans-serif", color: "#4A4A4A" }}
+                <img src={coupleImages[1]} alt="Together" className="split-image" />
+              </motion.div>
+              
+              <motion.div 
+                className="split-right"
+                initial={{ x: 100, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
               >
-                Do you like endless hugs?
-              </h2>
-              <div className="space-y-4">
-                <button
-                  className="pillow-button w-full"
-                  onClick={() => handleButtonClick(4)}
-                  data-testid="endless-hugs-yes-button"
-                >
-                  Yes pls 🫂
-                </button>
-                <button
-                  className="pillow-button-secondary pillow-button w-full"
-                  onClick={() => handleButtonClick(4)}
-                  data-testid="endless-hugs-only-you-button"
-                >
-                  Only from you 😌
-                </button>
-              </div>
+                <p className="split-intro">Okay one important question...</p>
+                <h2 className="split-title">Do you like endless hugs?</h2>
+                <div className="split-buttons">
+                  <button
+                    className="btn-large btn-large-primary"
+                    onClick={() => handleButtonClick(4)}
+                    data-testid="endless-hugs-yes-button"
+                  >
+                    Yes pls
+                  </button>
+                  <button
+                    className="btn-large btn-large-secondary"
+                    onClick={() => handleButtonClick(4)}
+                    data-testid="endless-hugs-only-you-button"
+                  >
+                    Only from you
+                  </button>
+                </div>
+              </motion.div>
             </div>
           </motion.div>
         )}
 
+        {/* PAGE 4: STARRY NIGHT EMOTIONAL */}
         {currentPage === 4 && (
           <motion.div
             key="page4"
-            className="valentine-container gradient-night"
+            className="page-container page-starry"
             initial="initial"
             animate="animate"
             exit="exit"
             variants={pageVariants}
-            transition={pageTransition}
+            transition={{ duration: 0.6 }}
           >
-            <Stars />
-            <div className="content-card" data-testid="emotional-page" style={{ background: "rgba(26, 27, 75, 0.3)" }}>
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              >
-                <Star size={48} color="#FFD700" className="mx-auto mb-6" />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5, duration: 1 }}
-              >
-                <p 
-                  className="text-lg md:text-xl mb-4 text-center leading-relaxed"
-                  style={{ fontFamily: "'Caveat', cursive", fontSize: "1.75rem", color: "#F8F8F8" }}
-                >
-                  Somehow, with you, everything feels calmer.
-                </p>
-                <p 
-                  className="text-lg md:text-xl mb-4 text-center leading-relaxed"
-                  style={{ fontFamily: "'Caveat', cursive", fontSize: "1.75rem", color: "#F8F8F8" }}
-                >
-                  You feel like home.
-                </p>
-                <p 
-                  className="text-lg md:text-xl mb-8 text-center leading-relaxed"
-                  style={{ fontFamily: "'Caveat', cursive", fontSize: "1.75rem", color: "#F8F8F8" }}
-                >
-                  Like my night sky.
-                </p>
-              </motion.div>
+            <div className="stars-background">
+              {[...Array(100)].map((_, i) => (
+                <div
+                  key={i}
+                  className="star"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 3}s`,
+                    animationDuration: `${2 + Math.random() * 3}s`
+                  }}
+                />
+              ))}
+            </div>
+            
+            <motion.div 
+              className="starry-content"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 1 }}
+            >
+              <div className="poetic-text">
+                <p className="poem-line">Somehow, with you,</p>
+                <p className="poem-line">everything feels calmer.</p>
+                <p className="poem-line">You feel like home.</p>
+                <p className="poem-line highlight">Like my night sky.</p>
+              </div>
+              
               <button
-                className="pillow-button w-full"
+                className="btn-starry"
                 onClick={() => handleButtonClick(5)}
                 data-testid="one-last-question-button"
               >
-                One last question…
+                One last question...
               </button>
-            </div>
+            </motion.div>
           </motion.div>
         )}
 
+        {/* PAGE 5: GRAND PROPOSAL */}
         {currentPage === 5 && (
           <motion.div
             key="page5"
-            className="valentine-container gradient-day"
+            className="page-container page-proposal"
             initial="initial"
             animate="animate"
             exit="exit"
             variants={pageVariants}
-            transition={pageTransition}
+            transition={{ duration: 0.6 }}
           >
-            <FloatingHearts />
-            <BubbleHearts />
-            <Sparkles />
-            
-            <div className="content-card" data-testid="proposal-page">
+            <div className="proposal-content">
               <motion.div
-                animate={{ scale: [1, 1.15, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
+                className="heart-icon-large"
+                animate={{ 
+                  scale: [1, 1.1, 1],
+                }}
+                transition={{ 
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
               >
-                <Heart size={80} color="#FF9EAA" className="mx-auto mb-8 heart-pulse" />
+                <Heart size={80} fill="#FF69B4" color="#FF69B4" />
               </motion.div>
-              <h1 
-                className="text-3xl md:text-5xl font-bold mb-8 text-center"
-                style={{ fontFamily: "'Fredoka', sans-serif", color: "#4A4A4A" }}
+              
+              <motion.h1 
+                className="proposal-title"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.8 }}
               >
-                Preksha, will you be my Valentine? 💖
-              </h1>
-              <div className="space-y-4">
+                Preksha,
+              </motion.h1>
+              
+              <motion.h2 
+                className="proposal-question"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.8 }}
+              >
+                will you be my Valentine?
+              </motion.h2>
+              
+              <motion.div 
+                className="proposal-buttons"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9, duration: 0.8 }}
+              >
                 <button
-                  className="pillow-button w-full"
+                  className="btn-proposal btn-proposal-primary"
                   onClick={() => {
                     handleButtonClick(6);
                     setTimeout(triggerConfetti, 500);
                   }}
                   data-testid="valentine-yes-button"
                 >
-                  YES 💕
+                  YES
                 </button>
                 <button
-                  className="pillow-button-secondary pillow-button w-full"
+                  className="btn-proposal btn-proposal-secondary"
                   onClick={() => {
                     handleButtonClick(6);
                     setTimeout(triggerConfetti, 500);
                   }}
                   data-testid="valentine-how-could-i-say-no-button"
                 >
-                  How could I say no 😭
+                  How could I say no
                 </button>
-              </div>
+              </motion.div>
             </div>
           </motion.div>
         )}
 
+        {/* PAGE 6: CELEBRATION WITH PHOTOS */}
         {currentPage === 6 && (
           <motion.div
             key="page6"
-            className="valentine-container gradient-day"
+            className="page-container page-celebration"
             initial="initial"
             animate="animate"
             exit="exit"
             variants={pageVariants}
-            transition={pageTransition}
+            transition={{ duration: 0.6 }}
           >
-            <FloatingHearts />
-            <BubbleHearts />
-            <Sparkles />
-            
-            <FloatingPolaroid 
-              src={coupleImages[0]} 
-              delay={0} 
-              rotation={-12}
-              left="8%"
-              top="10%"
-            />
-            <FloatingPolaroid 
-              src={coupleImages[1]} 
-              delay={1.5} 
-              rotation={8}
-              left="70%"
-              top="15%"
-            />
-            <FloatingPolaroid 
-              src={coupleImages[2]} 
-              delay={0.8} 
-              rotation={-5}
-              left="75%"
-              top="65%"
-            />
-            
-            <div className="content-card" data-testid="success-page">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+            <div className="celebration-grid">
+              <motion.div 
+                className="celebration-photo photo-1"
+                initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+                animate={{ opacity: 1, scale: 1, rotate: -5 }}
+                transition={{ delay: 0.2, duration: 0.6 }}
               >
-                <Sparkles size={64} color="#FFD700" className="mx-auto mb-6" />
+                <img src={coupleImages[0]} alt="Memory 1" />
               </motion.div>
               
-              <motion.p 
-                className="text-xl md:text-2xl mb-3 text-center leading-relaxed"
-                style={{ fontFamily: "'Caveat', cursive", color: "#FF9EAA", fontSize: "1.5rem" }}
-                initial={{ opacity: 0, y: 20 }}
+              <motion.div 
+                className="celebration-message"
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
+                transition={{ delay: 0.5, duration: 0.8 }}
               >
-                Valentine's Day is still coming...
-              </motion.p>
+                <p className="celebration-text-small">Valentine's Day is still coming...</p>
+                <h2 className="celebration-text-main">But you've been my valentine all along.</h2>
+                <p className="celebration-text-medium">This is just us.</p>
+                <p className="celebration-text-love">I love you, Preksha</p>
+                <p className="celebration-signature">- Talin</p>
+              </motion.div>
               
-              <motion.p 
-                className="text-2xl md:text-3xl mb-4 text-center font-semibold"
-                style={{ fontFamily: "'Fredoka', sans-serif", color: "#4A4A4A" }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
+              <motion.div 
+                className="celebration-photo photo-2"
+                initial={{ opacity: 0, scale: 0.8, rotate: 10 }}
+                animate={{ opacity: 1, scale: 1, rotate: 5 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
               >
-                But you've been my valentine all along.
-              </motion.p>
+                <img src={coupleImages[1]} alt="Memory 2" />
+              </motion.div>
               
-              <motion.p 
-                className="text-xl md:text-2xl mb-4 text-center"
-                style={{ fontFamily: "'Nunito', sans-serif", color: "#4A4A4A" }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.9 }}
+              <motion.div 
+                className="celebration-photo photo-3"
+                initial={{ opacity: 0, scale: 0.8, rotate: -8 }}
+                animate={{ opacity: 1, scale: 1, rotate: -3 }}
+                transition={{ delay: 0.6, duration: 0.6 }}
               >
-                This is just us.
-              </motion.p>
-              
-              <motion.p
-                className="text-2xl md:text-3xl mt-6 text-center font-bold"
-                style={{ fontFamily: "'Caveat', cursive", color: "#FF6B6B", fontSize: "2rem" }}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 1.2, type: "spring", stiffness: 200 }}
-              >
-                I love you, Preksha 💗
-              </motion.p>
-              
-              <motion.p
-                className="mt-8 text-center"
-                style={{ fontFamily: "'Caveat', cursive", fontSize: "1.5rem", color: "#888888" }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.8 }}
-              >
-                - Talin
-              </motion.p>
+                <img src={coupleImages[2]} alt="Memory 3" />
+              </motion.div>
             </div>
           </motion.div>
         )}
