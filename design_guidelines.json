@@ -1,0 +1,153 @@
+{
+  "project_name": "Preksha's Valentine",
+  "design_philosophy": {
+    "persona": "E1: The Anti-AI Designer",
+    "core_concept": "Cloud 9 Romance - A soft, floating, dreamlike experience.",
+    "vibe": "Intimate, Cozy, Playful, Magical",
+    "principles": [
+      "Fusion: Kawaii aesthetics x Modern Minimalist Typography",
+      "Emotion First: Every transition must feel like a warm hug",
+      "Softness: No sharp corners. Everything is rounded (2xl or full)",
+      "Micro-interactions: Buttons should feel 'squishy' and tactile"
+    ]
+  },
+  "typography": {
+    "font_family": {
+      "headings": "Fredoka, sans-serif",
+      "body": "Nunito, sans-serif",
+      "accents": "Caveat, cursive"
+    },
+    "scale": {
+      "h1": "text-4xl md:text-6xl font-bold tracking-tight",
+      "h2": "text-2xl md:text-4xl font-semibold",
+      "body": "text-lg md:text-xl leading-relaxed",
+      "button": "text-lg font-bold tracking-wide"
+    },
+    "imports": [
+      "@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Fredoka:wght@300;400;600&family=Nunito:wght@400;600;800&display=swap');"
+    ]
+  },
+  "colors": {
+    "palette": {
+      "background": {
+        "light": "#FFFDF5",
+        "soft_pink": "#FFF0F5",
+        "night_sky": "#1A1B4B"
+      },
+      "primary": {
+        "main": "#FF9EAA",
+        "hover": "#FF8595",
+        "text": "#FFFFFF"
+      },
+      "secondary": {
+        "main": "#E6E6FA",
+        "accent": "#B0C4DE"
+      },
+      "text": {
+        "primary": "#4A4A4A",
+        "secondary": "#888888",
+        "light": "#F8F8F8"
+      },
+      "accents": {
+        "gold": "#FFD700",
+        "heart_red": "#FF6B6B"
+      }
+    },
+    "gradients": {
+      "day": "linear-gradient(135deg, #FFFDF5 0%, #FFF0F5 100%)",
+      "sunset": "linear-gradient(135deg, #FF9EAA 0%, #FFD1DC 100%)",
+      "night": "linear-gradient(to bottom, #0F2027, #203A43, #2C5364)"
+    }
+  },
+  "layout": {
+    "structure": "Mobile-first, single column, centered content.",
+    "spacing": {
+      "container_padding": "p-6 md:p-12",
+      "element_gap": "gap-6 md:gap-8"
+    },
+    "containers": {
+      "card": "bg-white/60 backdrop-blur-md border border-white/50 shadow-xl rounded-3xl p-8 max-w-md w-full mx-auto"
+    }
+  },
+  "components": {
+    "buttons": {
+      "style": "Pillow Button",
+      "classes": "relative overflow-hidden rounded-full px-8 py-4 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-[0_4px_14px_0_rgba(255,158,170,0.39)] bg-gradient-to-r from-[#FF9EAA] to-[#FFD1DC] text-white font-bold",
+      "variants": {
+        "secondary": "bg-white text-[#FF9EAA] border-2 border-[#FF9EAA] hover:bg-[#FFF0F5]"
+      }
+    },
+    "inputs": {
+      "style": "Soft Field",
+      "classes": "rounded-2xl border-2 border-pink-100 bg-white/80 px-4 py-3 focus:border-pink-300 focus:ring-4 focus:ring-pink-100 transition-all outline-none"
+    }
+  },
+  "motion": {
+    "library": "framer-motion",
+    "transitions": {
+      "page": {
+        "initial": { "opacity": 0, "y": 20, "scale": 0.95 },
+        "animate": { "opacity": 1, "y": 0, "scale": 1 },
+        "exit": { "opacity": 0, "y": -20, "scale": 1.05 },
+        "transition": { "duration": 0.5, "ease": "easeOut" }
+      },
+      "hover": {
+        "scale": 1.05,
+        "rotate": 2
+      }
+    },
+    "animations": {
+      "floating": {
+        "y": [0, -10, 0],
+        "transition": { "duration": 3, "repeat": "Infinity", "ease": "easeInOut" }
+      },
+      "pulse": {
+        "scale": [1, 1.1, 1],
+        "transition": { "duration": 2, "repeat": "Infinity" }
+      }
+    }
+  },
+  "assets": {
+    "images": {
+      "clouds_bg": "https://images.pexels.com/photos/1166209/pexels-photo-1166209.jpeg",
+      "night_bg": "https://images.unsplash.com/photo-1720293862142-61c1f3deb794?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "cute_heart": "https://cdn-icons-png.flaticon.com/512/2107/2107952.png" 
+    },
+    "icons": "Lucide React (Heart, Stars, Music, Volume2, Sparkles)"
+  },
+  "pages_flow": {
+    "1_welcome": {
+      "bg": "gradients.day",
+      "elements": ["Floating Hearts", "Title", "Continue Button"]
+    },
+    "2_questions": {
+      "bg": "gradients.day",
+      "elements": ["Progress Bar", "Question Card", "Yes/Yes Buttons"]
+    },
+    "3_playful": {
+      "bg": "gradients.sunset",
+      "elements": ["Bouncing Text", "Playful Buttons"]
+    },
+    "4_emotional": {
+      "bg": "gradients.night",
+      "text_color": "text-white",
+      "elements": ["Twinkling Stars (Canvas/CSS)", "Poetic Text", "Soft Glow"]
+    },
+    "5_proposal": {
+      "bg": "gradients.day",
+      "elements": ["Big Heart Pulse", "Proposal Text", "Confetti Trigger"]
+    },
+    "6_success": {
+      "bg": "gradients.day",
+      "elements": ["Confetti Explosion", "Celebration Text", "Music Climax"]
+    }
+  },
+  "universal_guidelines": [
+    "Do not use generic 'Inter' font. Use the specified Google Fonts.",
+    "Ensure all buttons have a 'click' animation (scale down).",
+    "Music must be user-initiated (muted by default, toggle available).",
+    "Use 'canvas-confetti' for the success page.",
+    "Ensure mobile responsiveness - buttons must be easily tappable (min height 48px).",
+    "Add 'data-testid' to all interactive elements."
+  ]
+}
