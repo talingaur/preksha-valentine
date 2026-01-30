@@ -383,10 +383,10 @@ body {
   cursor: pointer;
 }
 
-/* PAGE 5: PULSING HEART */
+/* PAGE 5: SWEET PROPOSAL */
 .page-5 {
   min-height: 100vh;
-  background: linear-gradient(135deg, #FFF5F7 0%, #FFEBF0 100%);
+  background: linear-gradient(135deg, #FFF0F5 0%, #FFE4E9 50%, #FFD6E0 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -394,36 +394,39 @@ body {
   overflow: hidden;
 }
 
-.pulse-rings {
+.soft-hearts-bg {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  pointer-events: none;
 }
 
-.pulse-ring {
+.soft-heart {
   position: absolute;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  border: 3px solid rgba(255, 20, 147, 0.5);
 }
 
 .page-5-content {
-  text-align: center;
   z-index: 10;
   padding: 40px;
 }
 
+.page-5-card {
+  background: white;
+  border-radius: 40px;
+  padding: 80px 60px;
+  box-shadow: 0 30px 80px rgba(255, 105, 180, 0.3);
+  max-width: 650px;
+  text-align: center;
+}
+
 .big-heart {
   margin-bottom: 40px;
-  filter: drop-shadow(0 10px 40px rgba(255, 20, 147, 0.5));
+  display: inline-block;
+  filter: drop-shadow(0 10px 30px rgba(255, 105, 180, 0.4));
 }
 
 .page-5-name {
   font-family: 'Fredoka', sans-serif;
-  font-size: 5rem;
+  font-size: 4.5rem;
   color: #2C3E50;
   margin-bottom: 20px;
   font-weight: 700;
@@ -431,40 +434,41 @@ body {
 
 .page-5-question {
   font-family: 'Poppins', sans-serif;
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   color: #555;
   margin-bottom: 60px;
   font-weight: 400;
+  line-height: 1.4;
 }
 
 .page-5-btns {
   display: flex;
-  gap: 25px;
+  gap: 20px;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .page-5-btn {
-  padding: 25px 50px;
-  font-size: 1.5rem;
-  font-weight: 800;
+  padding: 22px 45px;
+  font-size: 1.3rem;
+  font-weight: 700;
   border: none;
   border-radius: 50px;
   cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  min-width: 200px;
+  min-width: 220px;
+  transition: all 0.3s ease;
 }
 
 .page-5-yes {
-  background: linear-gradient(135deg, #FF1493, #FF69B4);
+  background: linear-gradient(135deg, #FF69B4, #FF1493);
   color: white;
+  box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
 }
 
 .page-5-no {
   background: white;
   color: #FF1493;
-  border: 4px solid #FF1493;
+  border: 3px solid #FF1493;
 }
 
 /* PAGE 6: PHOTO COLLAGE */
