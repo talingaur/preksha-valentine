@@ -97,19 +97,7 @@ const App = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.6 }}
               >
-                <motion.h1 
-                  className="page-1-title"
-                  animate={{ 
-                    scale: [1, 1.05, 1]
-                  }}
-                  transition={{ 
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                >
-                  Hey Preksha
-                </motion.h1>
+                <h1 className="page-1-title">Hey Preksha</h1>
                 <p className="page-1-subtitle">I made a tiny corner of the internet just for you.</p>
                 <motion.button
                   className="page-1-btn"
@@ -367,13 +355,7 @@ const App = () => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.8, type: "spring" }}
             >
-              <motion.p 
-                className="page-3-intro"
-                animate={{ y: [0, -5, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                Okay one important question...
-              </motion.p>
+              <p className="page-3-intro">Okay one important question...</p>
               <h2 className="page-3-title">Do you like endless hugs?</h2>
               <div className="page-3-btns">
                 <motion.button
@@ -523,7 +505,7 @@ const App = () => {
           </motion.div>
         )}
 
-        {/* PAGE 5: PULSING HEART PROPOSAL */}
+        {/* PAGE 5: SWEET PROPOSAL */}
         {currentPage === 5 && (
           <motion.div
             key="page5"
@@ -532,99 +514,82 @@ const App = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            {/* Radiating rings */}
-            <div className="pulse-rings">
-              {[...Array(5)].map((_, i) => (
+            {/* Soft floating hearts */}
+            <div className="soft-hearts-bg">
+              {[...Array(20)].map((_, i) => (
                 <motion.div
                   key={i}
-                  className="pulse-ring"
+                  className="soft-heart"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                  }}
                   animate={{
-                    scale: [1, 3],
-                    opacity: [0.5, 0]
+                    y: [0, -20, 0],
+                    opacity: [0.2, 0.5, 0.2]
                   }}
                   transition={{
-                    duration: 3,
+                    duration: 4 + Math.random() * 2,
                     repeat: Infinity,
-                    delay: i * 0.6,
-                    ease: "easeOut"
+                    delay: Math.random() * 3
                   }}
-                />
+                >
+                  <Heart size={20 + Math.random() * 20} fill="#FFB6C1" color="#FFB6C1" />
+                </motion.div>
               ))}
             </div>
 
-            <motion.div className="page-5-content">
-              <motion.div
-                className="big-heart"
-                animate={{ 
-                  scale: [1, 1.2, 1],
-                  rotate: [0, 5, -5, 0]
-                }}
-                transition={{ 
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
-                <Heart size={100} fill="#FF1493" color="#FF1493" />
-              </motion.div>
-              
-              <motion.h1 
-                className="page-5-name"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                Preksha,
-              </motion.h1>
-              
-              <motion.h2 
-                className="page-5-question"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-              >
-                will you be my Valentine?
-              </motion.h2>
-              
-              <motion.div 
-                className="page-5-btns"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.9 }}
-              >
-                <motion.button
-                  className="page-5-btn page-5-yes"
-                  onClick={() => {
-                    handleButtonClick(6);
-                    setTimeout(triggerConfetti, 500);
+            <motion.div 
+              className="page-5-content"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+            >
+              <div className="page-5-card">
+                <motion.div
+                  className="big-heart"
+                  animate={{ 
+                    scale: [1, 1.15, 1]
                   }}
-                  data-testid="valentine-yes-button"
-                  whileHover={{ scale: 1.15, rotate: 5 }}
-                  whileTap={{ scale: 0.9 }}
-                  animate={{
-                    boxShadow: [
-                      "0 0 20px rgba(255, 20, 147, 0.5)",
-                      "0 0 40px rgba(255, 20, 147, 0.8)",
-                      "0 0 20px rgba(255, 20, 147, 0.5)"
-                    ]
+                  transition={{ 
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
                   }}
-                  transition={{ duration: 2, repeat: Infinity }}
                 >
-                  YES
-                </motion.button>
-                <motion.button
-                  className="page-5-btn page-5-no"
-                  onClick={() => {
-                    handleButtonClick(6);
-                    setTimeout(triggerConfetti, 500);
-                  }}
-                  data-testid="valentine-how-could-i-say-no-button"
-                  whileHover={{ scale: 1.15, rotate: -5 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  How could I say no
-                </motion.button>
-              </motion.div>
+                  <Heart size={90} fill="#FF69B4" color="#FF69B4" />
+                </motion.div>
+                
+                <h1 className="page-5-name">Preksha,</h1>
+                <h2 className="page-5-question">will you be my Valentine?</h2>
+                
+                <div className="page-5-btns">
+                  <motion.button
+                    className="page-5-btn page-5-yes"
+                    onClick={() => {
+                      handleButtonClick(6);
+                      setTimeout(triggerConfetti, 500);
+                    }}
+                    data-testid="valentine-yes-button"
+                    whileHover={{ scale: 1.08, y: -3 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    YES
+                  </motion.button>
+                  <motion.button
+                    className="page-5-btn page-5-no"
+                    onClick={() => {
+                      handleButtonClick(6);
+                      setTimeout(triggerConfetti, 500);
+                    }}
+                    data-testid="valentine-how-could-i-say-no-button"
+                    whileHover={{ scale: 1.08, y: -3 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    How could I say no
+                  </motion.button>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
         )}
@@ -659,25 +624,13 @@ const App = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
               >
-                <motion.div
-                  animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                >
+                <div>
                   <p className="msg-small">Valentine's Day is still coming...</p>
                   <h2 className="msg-main">But you've been my valentine all along.</h2>
                   <p className="msg-medium">This is just us.</p>
-                  <motion.p 
-                    className="msg-love"
-                    animate={{ 
-                      scale: [1, 1.1, 1],
-                      color: ["#FF1493", "#FF69B4", "#FF1493"]
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    I love you, Preksha
-                  </motion.p>
+                  <p className="msg-love">I love you, Preksha</p>
                   <p className="msg-sign">- Talin</p>
-                </motion.div>
+                </div>
               </motion.div>
 
               <motion.div
