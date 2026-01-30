@@ -455,38 +455,10 @@ const App = () => {
               </motion.div>
               
               <div className="poem-box">
-                <motion.p 
-                  className="poem-line"
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.2 }}
-                >
-                  Somehow, with you,
-                </motion.p>
-                <motion.p 
-                  className="poem-line"
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.5 }}
-                >
-                  everything feels calmer.
-                </motion.p>
-                <motion.p 
-                  className="poem-line"
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.8 }}
-                >
-                  You feel like home.
-                </motion.p>
-                <motion.p 
-                  className="poem-line-special"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 2.1, type: "spring" }}
-                >
-                  Like my night sky.
-                </motion.p>
+                <p className="poem-line">Somehow, with you,</p>
+                <p className="poem-line">everything feels calmer.</p>
+                <p className="poem-line">You feel like home.</p>
+                <p className="poem-line-special">Like my night sky.</p>
               </div>
               
               <motion.button
