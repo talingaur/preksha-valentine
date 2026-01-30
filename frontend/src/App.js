@@ -11,7 +11,7 @@ const App = () => {
   const audioRef = useRef(null);
 
   useEffect(() => {
-    audioRef.current = new Audio("https://cdn.pixabay.com/audio/2022/03/10/audio_4cf48abca0.mp3");
+    audioRef.current = new Audio("https://www.bensound.com/bensound-music/bensound-love.mp3");
     audioRef.current.loop = true;
     audioRef.current.volume = 0.3;
   }, []);
